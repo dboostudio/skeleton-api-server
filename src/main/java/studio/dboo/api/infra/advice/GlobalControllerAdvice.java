@@ -23,11 +23,11 @@ public class GlobalControllerAdvice {
         JsonArray result = new JsonArray();
         JsonObject jsonObject = new JsonObject();
 
-        log.error("========== INNRESERVE EXCEPTION LOG START ==========");
+        log.error("========== EXCEPTION LOG START ==========");
         log.error("Error SimpleName : {} ", e.getClass().getSimpleName());
         log.error("Error Message : {}", e.getMessage());
         log.error("Error StackTrace : {} ", e);
-        log.error("========== INNRESERVE EXCEPTION LOG END ============");
+        log.error("========== EXCEPTION LOG END ============");
 
         jsonObject.addProperty("field", e.getClass().getSimpleName());
         jsonObject.addProperty("message", e.getMessage());
@@ -44,7 +44,7 @@ public class GlobalControllerAdvice {
         bindingResult.getAllErrors().forEach( error -> {
             JsonObject jsonObject = new JsonObject();
             FieldError field = (FieldError) error;
-            log.error("========== INN RESERVE ERROR LOG START ==========");
+            log.error("========== ERROR LOG START ==========");
             log.error("BindException occured");
             log.error("Field : {}", field.getField());
             log.error("ObjectName : {}", field.getObjectName());
@@ -54,7 +54,7 @@ public class GlobalControllerAdvice {
             jsonObject.addProperty("field", field.getField());
             jsonObject.addProperty("message", field.getDefaultMessage());
             result.add(jsonObject);
-            log.error("========== INN RESERVE ERROR LOG END ============");
+            log.error("========== ERROR LOG END ============");
         });
         return ResponseEntity.badRequest().body(result.toString());
     }
@@ -67,7 +67,7 @@ public class GlobalControllerAdvice {
         bindingResult.getAllErrors().forEach( error -> {
             JsonObject jsonObject = new JsonObject();
             FieldError field = (FieldError) error;
-            log.error("========== INN RESERVE ERROR LOG START ==========");
+            log.error("========== ERROR LOG START ==========");
             log.error("MethodArgumentNotValidException occured");
             log.error("Field : {}", field.getField());
             log.error("ObjectName : {}", field.getObjectName());
@@ -77,7 +77,7 @@ public class GlobalControllerAdvice {
             jsonObject.addProperty("field", field.getField());
             jsonObject.addProperty("message", field.getDefaultMessage());
             result.add(jsonObject);
-            log.error("========== INN RESERVE ERROR LOG END ============");
+            log.error("========== ERROR LOG END ============");
         });
         return ResponseEntity.badRequest().body(result.toString());
     }

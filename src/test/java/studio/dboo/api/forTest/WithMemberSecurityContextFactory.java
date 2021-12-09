@@ -10,20 +10,21 @@ import studio.dboo.api.module.member.MemberService;
 
 import java.security.NoSuchAlgorithmException;
 
-@RequiredArgsConstructor
-public class WithMemberSecurityContextFactory implements WithSecurityContextFactory<WithMember> {
+//@RequiredArgsConstructor
+//public class WithMemberSecurityContextFactory implements WithSecurityContextFactory<WithMember> {
+public class WithMemberSecurityContextFactory{
 
-    private final MemberService memberService;
-
-    @Override
-    public SecurityContext createSecurityContext(WithMember withMember) {
-
-        Member member = Member.builder()
-                .loginId(withMember.memberId())
-                .password(withMember.password())
-                .build();
-        memberService.login(member);
-
-        return SecurityContextHolder.getContext();
-    }
+//    private final MemberService memberService;
+//
+//    @Override
+//    public SecurityContext createSecurityContext(WithMember withMember) {
+//
+//        Member member = Member.builder()
+//                .loginId(withMember.memberId())
+//                .password(withMember.password())
+//                .build();
+//        memberService.loginAndGenerateToken(member);
+//
+//        return SecurityContextHolder.getContext();
+//    }
 }

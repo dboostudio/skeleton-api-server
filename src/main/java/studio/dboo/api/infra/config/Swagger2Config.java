@@ -11,7 +11,7 @@ import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @Configuration
-@EnableSwagger2
+//@EnableSwagger2
 public class Swagger2Config {
 
     // http://localhost:8080/swagger-ui/index.html
@@ -27,9 +27,9 @@ public class Swagger2Config {
     }
 
     private ApiInfo apiInfo() {
-        String description = "Youngilee API Doc";
+        String description = "API Doc";
         return new ApiInfoBuilder()
-                .title("Youngilee API")
+                .title("API")
                 .version("0.0.1")
                 .description(description)
                 .build();
