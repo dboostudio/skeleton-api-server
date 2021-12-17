@@ -1,6 +1,6 @@
 buildscript {
     ext {
-        spring = "2.5.0"
+        spring = "2.6.1"
         boot = "org.springframework.boot"
         lombok = "org.projectlombok:lombok"
     }
@@ -12,9 +12,8 @@ buildscript {
     }
 }
 
-
 plugins {
-    id 'org.springframework.boot' version '2.5.0'
+    id 'org.springframework.boot' version '2.6.1'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'java'
 }
@@ -33,18 +32,34 @@ repositories {
     mavenCentral()
 }
 
+bootJar{
+    mainClass = "studio.dboo.api.ApiApplicationTest"
+}
+
 dependencies {
 
     // SPRING BOOT
-    implementation "io.springfox:springfox-boot-starter:3.0.0" //aop, swagger 포함
     implementation "$boot:spring-boot-starter-web"
     implementation "$boot:spring-boot-starter-mail"
     implementation "$boot:spring-boot-starter-data-jpa"
     implementation "$boot:spring-boot-starter-oauth2-client"
     implementation "$boot:spring-boot-starter-validation"
     implementation "$boot:spring-boot-starter-security"
+
+    // Log4j2
+    implementation "$boot:spring-boot-starter-log4j2"
+    implementation group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.16.0'
+    implementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.16.0'
+    implementation group: 'org.apache.logging.log4j', name: 'log4j-jul', version: '2.16.0'
+    implementation group: 'org.apache.logging.log4j', name: 'log4j-slf4j-impl', version: '2.16.0'
+    implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.32'
+    implementation group: 'org.slf4j', name: 'jul-to-slf4j', version: '1.7.32'
+
     testImplementation "$boot:spring-boot-starter-test"
     testImplementation 'org.springframework.security:spring-security-test'
+
+    // SWAGGER
+    implementation "io.springfox:springfox-boot-starter:3.0.0"
 
     // THYMELEAF
     implementation "$boot:spring-boot-starter-thymeleaf"
@@ -61,9 +76,17 @@ dependencies {
     runtimeOnly 'org.postgresql:postgresql'
 
     // ETC
-    implementation 'com.google.code.gson:gson:2.8.6' //json처리
-    implementation 'io.jsonwebtoken:jjwt:0.9.1' //jjwt
+    implementation 'com.google.code.gson:gson:2.8.5' // JSON
+    implementation 'io.jsonwebtoken:jjwt:0.9.1' // JWT
 }
+
+configurations {
+    all {
+        // 기존 스프링부트에 있는 로거 의존성을 제외한다. -> LOG4J2 를 쓰기 위해
+        exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
+    }
+}
+
 
 test {
     useJUnitPlatform()

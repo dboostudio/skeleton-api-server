@@ -34,12 +34,13 @@ public class JwtFilter extends OncePerRequestFilter {
     public static final String BEARER_PREFIX = "Bearer ";
 
     private List<String> EXCLUDE_URL = List.of("/"
-            ,"/swagger-resources/**","/swagger-ui/**" ,"/swagger-ui.html", "/v2/api-docs"
+            ,"/swagger-ui/**", "/swagger-ui.html", "/webjars/**", "/swagger-resources/**", "/v2/api-docs"
             ,"/api/member/sign-up", "/api/member/login");
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        log.debug("JwtFilter > doFilterInternal > request.getRequestURI() > " + request.getRequestURI());
+        //TODO - log level debug로 바꿀것
+        log.info("JwtFilter > doFilterInternal > request.getRequestURI() > " + request.getRequestURI());
         String jwt = extractTokenFromHeader(request);
 
         jwtTokenUtil.validateJwtToken(jwt);
@@ -80,7 +81,7 @@ public class JwtFilter extends OncePerRequestFilter {
     protected boolean shouldNotFilter(HttpServletRequest request){
         AntPathMatcher antPathMatcher = new AntPathMatcher();
         for(String urlPattern : EXCLUDE_URL){
-            if(antPathMatcher.match(urlPattern, request.getServletPath())){
+            if(antPathMatcher.match(urlPattern, request.getRequestURI())){
                 return true;
             }
         }

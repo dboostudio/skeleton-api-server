@@ -11,11 +11,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Getter
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 public class CustomException extends RuntimeException{
     private HttpStatus httpStatus = HttpStatus.OK;
     private String message;

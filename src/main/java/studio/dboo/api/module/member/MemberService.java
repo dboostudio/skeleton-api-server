@@ -17,7 +17,10 @@ import org.springframework.stereotype.Service;
 import studio.dboo.api.infra.exceptions.CustomException;
 import studio.dboo.api.infra.jwt.JwtTokenUtil;
 import studio.dboo.api.infra.jwt.vo.JwtToken;
+import studio.dboo.api.module.member.domain.Member;
+import studio.dboo.api.module.member.enums.Role;
 
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
@@ -32,8 +35,7 @@ public class MemberService implements UserDetailsService {
     private final JwtTokenUtil jwtTokenUtil;
 
     private static final String PASSWORD_NOT_MATCH = "비밀번호가 일치하지 않습니다.";
-
-
+    
     @Override
     public UserDetails loadUserByUsername(String memberId) throws UsernameNotFoundException {
         Optional<Member> byUserId = memberRepository.findByLoginId(memberId);
@@ -70,9 +72,16 @@ public class MemberService implements UserDetailsService {
         }
 
         // 가입처리
+        member.setRole(Role.USER);
         member.encodePassword(passwordEncoder);
         Member savedMember = memberRepository.save(member);
 
         return savedMember;
+    }
+
+    public Member getCurrentMember() {
+        Principal principal = SecurityContextHolder.getContext().getAuthentication();
+        Optional<Member> member = memberRepository.findByLoginId(principal.getName());
+        return member.get();
     }
 }

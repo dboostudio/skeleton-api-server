@@ -12,7 +12,7 @@ public enum Tier {
     GOLD        (2),
     PLATINUM    (3),
     DIAMOND     (4),
-    KING        (5);
+    GOD         (5);
 
     private final Integer value;
 }

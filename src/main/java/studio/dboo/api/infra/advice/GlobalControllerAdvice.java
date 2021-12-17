@@ -1,8 +1,10 @@
 package studio.dboo.api.infra.advice;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +18,11 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @Slf4j
 @RestControllerAdvice
+@RequiredArgsConstructor
 public class GlobalControllerAdvice {
+
+    private final ObjectMapper objectMapper;
+
     // 핸들러가 설정되지 않은 오류일 시, INTERNAL_SERVER_ERROR 리턴
     @ExceptionHandler(value = Exception.class)
     public ResponseEntity globalExceptionHandler(Exception e){
@@ -52,6 +58,7 @@ public class GlobalControllerAdvice {
             log.error("RejectedValue : {}", field.getRejectedValue());
 
             jsonObject.addProperty("field", field.getField());
+            jsonObject.addProperty("rejectValue", field.getRejectedValue().toString());
             jsonObject.addProperty("message", field.getDefaultMessage());
             result.add(jsonObject);
             log.error("========== ERROR LOG END ============");
@@ -75,6 +82,7 @@ public class GlobalControllerAdvice {
             log.error("RejectedValue : {}", field.getRejectedValue());
 
             jsonObject.addProperty("field", field.getField());
+            jsonObject.addProperty("rejectValue", field.getRejectedValue().toString());
             jsonObject.addProperty("message", field.getDefaultMessage());
             result.add(jsonObject);
             log.error("========== ERROR LOG END ============");

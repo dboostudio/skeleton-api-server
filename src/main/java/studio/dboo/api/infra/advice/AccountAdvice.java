@@ -23,12 +23,12 @@ public class AccountAdvice {
         JsonArray result = new JsonArray();
         JsonObject jsonObject = new JsonObject();
 
-        log.error("========== INN RESERVE ERROR LOG START ==========");
+        log.error("========== API ERROR LOG START ==========");
         log.error("AuthenticationException occured");
         log.error("Error SimpleName : {} ", e.getClass().getSimpleName());
         log.error("Error Message : {}", e.getMessage());
         log.error("Error StackTrace : {} ", e);
-        log.error("========== INN RESERVE ERROR LOG END ============");
+        log.error("========== API ERROR LOG END ============");
 
         jsonObject.addProperty("field", "userId");
         jsonObject.addProperty("message", e.getMessage() + "의 이메일로 가입된 계정이 없습니다.");
@@ -43,12 +43,12 @@ public class AccountAdvice {
         JsonArray result = new JsonArray();
         JsonObject jsonObject = new JsonObject();
 
-        log.error("========== INN RESERVE ERROR LOG START ==========");
+        log.error("========== API ERROR LOG START ==========");
         log.error("AuthenticationException occured");
         log.error("Error SimpleName : {} ", e.getClass().getSimpleName());
         log.error("Error Message : {}", e.getMessage());
         log.error("Error StackTrace : {} ", e);
-        log.error("========== INN RESERVE ERROR LOG END ============");
+        log.error("========== API ERROR LOG END ============");
 
         jsonObject.addProperty("field", "password");
         jsonObject.addProperty("message", "패스워드가 일치하지 않습니다.");

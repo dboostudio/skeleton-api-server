@@ -1,7 +1,7 @@
 package studio.dboo.api.module.address;
 
 import lombok.*;
-import studio.dboo.api.module.member.Member;
+import studio.dboo.api.module.member.domain.Member;
 
 import javax.persistence.*;
 
@@ -14,4 +14,11 @@ public class Address {
 
     @OneToOne(mappedBy = "address")
     private Member member;
+
+    private String addressLine1;
+    private String addressLine2;
+    private String city;
+    private String state;
+    private String zipCode;
+    private String country;
 }

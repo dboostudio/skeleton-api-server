@@ -1,7 +1,7 @@
 package studio.dboo.api.module.member;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import studio.dboo.api.module.member.Member;
+import studio.dboo.api.module.member.domain.Member;
 
 import javax.transaction.Transactional;
 import java.util.Optional;

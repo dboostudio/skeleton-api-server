@@ -17,13 +17,15 @@ public class Swagger2Config {
     // http://localhost:8080/swagger-ui/index.html
 
     @Bean
-    public Docket restAPI(){
+    public Docket api(){
         return new Docket(DocumentationType.SWAGGER_2)
-                .apiInfo(apiInfo())
+                .apiInfo(this.apiInfo())
                 .select()
                 .apis(RequestHandlerSelectors.any())
                 .paths(PathSelectors.any())
-                .build();
+                .build()
+
+                .useDefaultResponseMessages(true);
     }
 
     private ApiInfo apiInfo() {

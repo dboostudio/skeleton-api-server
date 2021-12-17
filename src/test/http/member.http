@@ -1,0 +1,23 @@
+### 내 정보 조회
+GET {{host}}/api/member/my-info
+Authorization: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkYm9vLnN0dWRpb0BnbWFpbC5jb20iLCJyb2xlcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9VU0VSIn1dLCJpYXQiOjE2Mzk2MjkxNDgsImV4cCI6MTYzOTYzMjc0OH0.oki3D7wdV6wBEeWkih3vuonz_Gr84EJC0Xw49JnNd4raJSFANv3xEhBfwZbbB5TVc4NWnbxAVZuZKcHVRD4FRQ
+Accept: application/json
+
+### 로그인
+POST {{host}}/api/member/login
+Content-Type: application/json
+
+{
+  "loginId" : "dboo.studio@gmail.com",
+  "password" : "eoghks1212"
+}
+
+### 회원가입
+POST {{host}}/api/member/sign-up
+Content-Type: application/json
+
+{
+  "loginId" : "dboo.studio@gmail.com",
+  "password" : "eoghks1212"
+}
+
