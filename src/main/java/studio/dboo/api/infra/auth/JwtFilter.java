@@ -1,4 +1,4 @@
-package studio.dboo.api.infra.jwt;
+package studio.dboo.api.infra.auth;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;

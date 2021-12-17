@@ -1,4 +1,4 @@
-package studio.dboo.api.infra.jwt;
+package studio.dboo.api.infra.auth;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -12,8 +12,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
-import studio.dboo.api.infra.jwt.vo.JwtToken;
-import studio.dboo.api.infra.jwt.vo.JwtTokenType;
+import studio.dboo.api.infra.auth.token.AuthToken;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -31,20 +30,20 @@ public class JwtTokenUtil implements InitializingBean {
     private static final Long ACCESS_TOKEN_VALID_TIME = HOUR;
     private static final Long REFRESH_TOKEN_VALID_TIME = HOUR * 24;
 
-    public HashMap<Integer, JwtToken> generateJwtTokens(Authentication authentication){
-        JwtToken accessToken = JwtToken.builder()
-                .token(generateJwtToken(authentication, ACCESS_TOKEN_VALID_TIME))
-                .tokenType(JwtTokenType.ACCESS_TOKEN)
-                .build();
-        JwtToken refreshToken = JwtToken.builder()
-                .token(generateJwtToken(authentication, REFRESH_TOKEN_VALID_TIME))
-                .tokenType(JwtTokenType.REFRESH_TOKEN)
-                .build();
-
-        HashMap<Integer, JwtToken> jwtTokenHashMap = new HashMap();
-        jwtTokenHashMap.put(0, accessToken);
-        jwtTokenHashMap.put(1, refreshToken);
-        return jwtTokenHashMap;
+    public HashMap<Integer, AuthToken> generateJwtTokens(Authentication authentication){
+//        AuthToken accessToken = AuthToken.builder()
+//                .token(generateJwtToken(authentication, ACCESS_TOKEN_VALID_TIME))
+//                .tokenType(JwtTokenType.ACCESS_TOKEN)
+//                .build();
+//        AuthToken refreshToken = AuthToken.builder()
+//                .token(generateJwtToken(authentication, REFRESH_TOKEN_VALID_TIME))
+//                .tokenType(JwtTokenType.REFRESH_TOKEN)
+//                .build();
+//
+//        HashMap<Integer, AuthToken> jwtTokenHashMap = new HashMap();
+//        jwtTokenHashMap.put(0, accessToken);
+//        jwtTokenHashMap.put(1, refreshToken);
+        return null;
     }
 
     public String generateJwtToken(Authentication authentication, Long expirationTime){

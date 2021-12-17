@@ -18,8 +18,5 @@ public class AppConfig {
         return characterEncodingFilter;
     }
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
-    }
+
 }

@@ -1,7 +1,6 @@
 package studio.dboo.api.infra.config;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -11,15 +10,10 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import studio.dboo.api.infra.jwt.JwtAccessDeniedHandler;
-import studio.dboo.api.infra.jwt.JwtAuthenticationEntryPoint;
-import studio.dboo.api.infra.jwt.JwtFilter;
-import studio.dboo.api.module.member.MemberService;
-
-import javax.sql.DataSource;
+import studio.dboo.api.infra.auth.AuthFilter;
+import studio.dboo.api.infra.auth.token.AuthTokenProvider;
 
 @Configuration
 @EnableWebSecurity(debug = false)
@@ -27,14 +21,14 @@ import javax.sql.DataSource;
 @RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    /** Bean injection */
-    private final DataSource dataSource;
-    private final MemberService memberService;
-    private final PasswordEncoder passwordEncoder;
+    private final AuthTokenProvider tokenProvider;
 
-    private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
-    private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
-    private final JwtFilter jwtFilter;
+    /** Bean injection */
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
     @Bean
     @Override
@@ -44,11 +38,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.jdbcAuthentication().dataSource(dataSource);
-        auth.userDetailsService(memberService)
-                .passwordEncoder(passwordEncoder);
     }
 
+    /*
+     * 토큰 필터 설정
+     * */
+    @Bean
+    public AuthFilter tokenAuthenticationFilter() {
+        return new AuthFilter(tokenProvider);
+    }
+
+    // SWAGGER를 위해 webSecurity 설정
     @Override
     public void configure(WebSecurity web){
         web.ignoring().antMatchers("/v2/api-docs","/webjars/**","/swagger-ui/*","/swagger**/","/swagger-resources/**");
@@ -57,14 +57,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         // Jwt 적용
-        http.csrf().disable()
-            .httpBasic().disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-
-                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
-                .exceptionHandling()
-                .authenticationEntryPoint(jwtAuthenticationEntryPoint)
-                .accessDeniedHandler(jwtAccessDeniedHandler);
+        http.cors().disable();
 
     }
 }

@@ -1,7 +1,7 @@
 package studio.dboo.api.module.address;
 
 import lombok.*;
-import studio.dboo.api.module.member.domain.Member;
+import studio.dboo.api.module.user.entity.User;
 
 import javax.persistence.*;
 
@@ -13,7 +13,7 @@ public class Address {
     private Long id;
 
     @OneToOne(mappedBy = "address")
-    private Member member;
+    private User member;
 
     private String addressLine1;
     private String addressLine2;

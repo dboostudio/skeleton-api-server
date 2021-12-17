@@ -1,9 +1,9 @@
-package studio.dboo.api.module.member.dto;
+package studio.dboo.api.module.user.dto;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Builder;
 import org.hibernate.validator.constraints.Length;
-import studio.dboo.api.module.member.domain.Member;
+import studio.dboo.api.module.user.entity.User;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class MemberSignUpDTO {
+public class UserSignUp {
 
     private final static String ID_REGEXP = "[a-zA-Z\\d_.]{0,}";
     private final static String ID_BLANK = "아이디를 입력해주세요.";
@@ -41,9 +41,9 @@ public class MemberSignUpDTO {
     @ApiModelProperty(value = "비밀번호")
     private String password;
 
-    public Member convertToMember(){
+    public User convertToMember(){
 
-        return Member.builder()
+        return User.builder()
                 .loginId(this.loginId)
                 .password(this.password)
                 .build();
