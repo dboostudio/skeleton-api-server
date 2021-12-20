@@ -30,7 +30,7 @@ public class AccountAdvice {
         log.error("Error StackTrace : {} ", e);
         log.error("========== API ERROR LOG END ============");
 
-        jsonObject.addProperty("field", "userId");
+        jsonObject.addProperty("field", "loginId");
         jsonObject.addProperty("message", e.getMessage() + "의 이메일로 가입된 계정이 없습니다.");
         result.add(jsonObject);
 

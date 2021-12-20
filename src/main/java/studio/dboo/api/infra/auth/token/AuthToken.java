@@ -11,6 +11,7 @@ import java.security.Key;
 import java.util.Date;
 
 @Slf4j
+@Builder
 @RequiredArgsConstructor
 public class AuthToken {
 

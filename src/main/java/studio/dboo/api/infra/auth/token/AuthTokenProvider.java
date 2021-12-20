@@ -8,6 +8,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
+import studio.dboo.api.infra.auth.exception.TokenValidFailedException;
 
 import java.security.Key;
 import java.util.Arrays;
@@ -52,8 +53,7 @@ public class AuthTokenProvider {
 
             return new UsernamePasswordAuthenticationToken(principal, authToken, authorities);
         } else {
-            return null;
-//            throw new TokenValidFailedException();
+            throw new TokenValidFailedException();
         }
     }
 
