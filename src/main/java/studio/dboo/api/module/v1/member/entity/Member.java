@@ -1,13 +1,14 @@
-package studio.dboo.api.module.member.entity;
+package studio.dboo.api.module.v1.member.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import studio.dboo.api.infra.auth.token.AuthType;
-import studio.dboo.api.module.address.Address;
-import studio.dboo.api.module.common.domain.BaseEntity;
-import studio.dboo.api.module.member.enums.Gender;
-import studio.dboo.api.module.member.enums.RoleType;
-import studio.dboo.api.module.member.enums.Tier;
+import studio.dboo.api.module.v1.address.Address;
+import studio.dboo.api.module.v1.common.domain.BaseEntity;
+import studio.dboo.api.module.v1.member.enums.Gender;
+import studio.dboo.api.module.v1.member.enums.RoleType;
+import studio.dboo.api.module.v1.member.enums.Tier;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -24,11 +25,14 @@ public class Member extends BaseEntity {
     private String loginId;
     @Enumerated(EnumType.STRING)
     private AuthType authType;
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
+    @Enumerated(EnumType.STRING)
     private RoleType role;
 
     /** PRIVATE INFO */
     private String name;
+    @Enumerated(EnumType.STRING)
     private Gender gender;
     private String phone;
     private Integer age;
@@ -40,6 +44,7 @@ public class Member extends BaseEntity {
     private String nickname;
     private String profileImageUrl;
     private Integer point;
+    @Enumerated(EnumType.STRING)
     private Tier tier;
 
     /** VERIFIED INFO */

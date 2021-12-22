@@ -1,15 +1,8 @@
 # SERVER PORT
 server.port: 8080
 
-# SWAGGER enable
-#springfox.documentation.swagger.v2.enabled: true
+# Log4j2 - local 에서는 그냥 logback을 쓰자.
 
-# Log4j2
-logging:
-  file:
-    path: logs
-  level: ## LOGGING LEVEL : 1) ERROR 2) WARN 3) INFO 4) DEBUG 5) TRACE
-    root: info
 
 spring:
 #  config.active.on-profile: local

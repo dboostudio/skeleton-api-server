@@ -1,4 +1,4 @@
-package studio.dboo.api.module.member.enums;
+package studio.dboo.api.module.v1.member.enums;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

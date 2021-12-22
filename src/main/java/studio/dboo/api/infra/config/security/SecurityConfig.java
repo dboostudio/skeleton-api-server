@@ -12,21 +12,20 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import studio.dboo.api.infra.auth.AuthenticationFilter;
-import studio.dboo.api.infra.auth.exception.RestAuthenticationEntryPoint;
+import studio.dboo.api.infra.auth.AuthenticationEntryPoint;
 import studio.dboo.api.infra.auth.handler.OAuth2AuthenticationFailureHandler;
 import studio.dboo.api.infra.auth.handler.OAuth2AuthenticationSuccessHandler;
 import studio.dboo.api.infra.auth.handler.TokenAccessDeniedHandler;
 import studio.dboo.api.infra.auth.repository.AuthenticationRepository;
 import studio.dboo.api.infra.properties.CorsProperties;
-import studio.dboo.api.module.member.MemberService;
-import studio.dboo.api.module.member.enums.RoleType;
+import studio.dboo.api.module.v1.member.MemberService;
+import studio.dboo.api.module.v1.member.enums.RoleType;
 
 import java.util.Arrays;
 
@@ -38,6 +37,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final MemberService userService;
     private final CorsProperties corsProperties;
+    private final PasswordEncoder passwordEncoder;
 
     private final AuthenticationFilter authenticationFilter;
     private final TokenAccessDeniedHandler tokenAccessDeniedHandler;
@@ -46,12 +46,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final OAuth2AuthenticationSuccessHandler successHandler;
     private final OAuth2AuthenticationFailureHandler failureHandler;
-
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
 
     @Bean(BeanIds.AUTHENTICATION_MANAGER)
     @Override
@@ -63,7 +57,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userService)
-                .passwordEncoder(passwordEncoder());
+                .passwordEncoder(passwordEncoder);
     }
     // Web Configure
     @Override
@@ -85,7 +79,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // 유효하지 않은 토큰, 비인가된 요청에 대한 에러 핸들러 설정
         http
                 .exceptionHandling()
-                .authenticationEntryPoint(new RestAuthenticationEntryPoint())
+                .authenticationEntryPoint(new AuthenticationEntryPoint())
                 .accessDeniedHandler(tokenAccessDeniedHandler);
 
         // OAuth 인가 관련 설정
@@ -103,6 +97,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
                 .antMatchers("/api/**").hasAnyAuthority(RoleType.USER.getCode())
                 .antMatchers("/api/**/admin/**").hasAnyAuthority(RoleType.ADMIN.getCode())
+                .antMatchers("/api/member/sign-up", "api/member/login").permitAll()
                 .anyRequest().authenticated();
         // AuthFilter 적용
         http.addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class);

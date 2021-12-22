@@ -18,7 +18,7 @@ import studio.dboo.api.infra.properties.AppProperties;
 import studio.dboo.api.infra.utils.CookieUtil;
 import studio.dboo.api.infra.auth.token.RefreshTokenRepository;
 import studio.dboo.api.infra.auth.token.RefreshToken;
-import studio.dboo.api.module.member.enums.RoleType;
+import studio.dboo.api.module.v1.member.enums.RoleType;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
@@ -40,7 +40,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 
     private final AuthTokenProvider tokenProvider;
     private final AppProperties appProperties;
-    private final RefreshTokenRepository userRefreshTokenRepository;
+    private final RefreshTokenRepository refreshTokenRepository;
     private final AuthenticationRepository authRepository;
 
     @Override
@@ -91,12 +91,12 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
         );
 
         // DB 저장
-        RefreshToken userRefreshToken = userRefreshTokenRepository.findByLoginId(userInfo.getId());
+        RefreshToken userRefreshToken = refreshTokenRepository.findByLoginId(userInfo.getId());
         if (userRefreshToken != null) {
             userRefreshToken.setToken(refreshToken.getToken());
         } else {
             userRefreshToken = new RefreshToken(userInfo.getId(), refreshToken.getToken());
-            userRefreshTokenRepository.saveAndFlush(userRefreshToken);
+            refreshTokenRepository.saveAndFlush(userRefreshToken);
         }
 
         int cookieMaxAge = (int) refreshTokenExpiry / 60;

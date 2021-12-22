@@ -1,7 +1,5 @@
 package studio.dboo.api.infra.utils;
 
-import org.springframework.stereotype.Component;
-
 import javax.servlet.http.HttpServletRequest;
 
 public class HeaderUtil {
@@ -9,7 +7,7 @@ public class HeaderUtil {
     private final static String HEADER_AUTHORIZATION = "Authorization";
     private final static String TOKEN_PREFIX = "Bearer ";
 
-    public static String parseTokenFromHeader(HttpServletRequest request) {
+    public static String getTokenFromRequest(HttpServletRequest request) {
         String headerValue = request.getHeader(HEADER_AUTHORIZATION);
 
         if (headerValue == null) {

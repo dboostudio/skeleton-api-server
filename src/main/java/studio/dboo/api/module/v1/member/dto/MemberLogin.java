@@ -1,21 +1,22 @@
-package studio.dboo.api.module.member.dto;
+package studio.dboo.api.module.v1.member.dto;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
-import studio.dboo.api.module.member.entity.Member;
+import studio.dboo.api.module.v1.member.entity.Member;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 
 @Getter
 @Setter
 @Builder
-public class UserLogin {
+public class MemberLogin {
 
-    @NotEmpty
+    @NotBlank
     @ApiModelProperty(value = "로그인 아이디")
     private String loginId;
 
-    @NotEmpty
+    @NotBlank
     @ApiModelProperty(value = "비밀번호")
     private String password;
 

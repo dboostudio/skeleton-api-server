@@ -4,8 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.test.context.support.WithSecurityContextFactory;
-import studio.dboo.api.module.member.entity.Member;
-import studio.dboo.api.module.member.MemberService;
+import studio.dboo.api.module.v1.member.MemberService;
 
 @RequiredArgsConstructor
 public class WithMemberSecurityContextFactory implements WithSecurityContextFactory<WithMember> {
@@ -15,11 +14,11 @@ public class WithMemberSecurityContextFactory implements WithSecurityContextFact
     @Override
     public SecurityContext createSecurityContext(WithMember withMember) {
 
-        Member member = Member.builder()
-                .loginId(withMember.memberId())
-                .password(withMember.password())
-                .build();
-        memberService.loginAndGenerateTokens(member);
+//        Member member = Member.builder()
+//                .loginId(withMember.memberId())
+//                .password(withMember.password())
+//                .build();
+//        memberService.loginAndGenerateTokens(member);
 
         return SecurityContextHolder.getContext();
     }

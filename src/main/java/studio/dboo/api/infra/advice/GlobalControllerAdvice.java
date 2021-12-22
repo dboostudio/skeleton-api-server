@@ -17,14 +17,14 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 
 @Slf4j
-@RestControllerAdvice
+//@RestControllerAdvice
 @RequiredArgsConstructor
 public class GlobalControllerAdvice {
 
     private final ObjectMapper objectMapper;
 
     // 핸들러가 설정되지 않은 오류일 시, INTERNAL_SERVER_ERROR 리턴
-    @ExceptionHandler(value = Exception.class)
+//    @ExceptionHandler(value = Exception.class)
     public ResponseEntity globalExceptionHandler(Exception e){
         JsonArray result = new JsonArray();
         JsonObject jsonObject = new JsonObject();
@@ -39,11 +39,11 @@ public class GlobalControllerAdvice {
         jsonObject.addProperty("message", e.getMessage());
         result.add(jsonObject);
 
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(result.toString());
+        return ResponseEntity.internalServerError().body(result.toString());
     }
 
     // bindException시, 핸들링
-    @ExceptionHandler(value = BindException.class)
+//    @ExceptionHandler(value = BindException.class)
     public ResponseEntity bindExceptionHandler(BindException e) throws JsonProcessingException {
         JsonArray result = new JsonArray();
         BindingResult bindingResult = e.getBindingResult();
@@ -67,7 +67,7 @@ public class GlobalControllerAdvice {
     }
 
     // Validation 실패 시, BAD_REQUEST 리턴
-    @ExceptionHandler(value = MethodArgumentNotValidException.class)
+//    @ExceptionHandler(value = MethodArgumentNotValidException.class)
     public ResponseEntity methodArgNotValidExceptionHandler(MethodArgumentNotValidException e) throws JsonProcessingException {
         JsonArray result = new JsonArray();
         BindingResult bindingResult = e.getBindingResult();

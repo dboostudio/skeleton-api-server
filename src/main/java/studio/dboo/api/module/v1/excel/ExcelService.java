@@ -1,4 +1,4 @@
-package studio.dboo.api.module.excel;
+package studio.dboo.api.module.v1.excel;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

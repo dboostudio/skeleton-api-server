@@ -1,4 +1,4 @@
-package studio.dboo.api.module.common.domain;
+package studio.dboo.api.module.v1.common.domain;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;

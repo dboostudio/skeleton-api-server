@@ -1,7 +1,7 @@
-package studio.dboo.api.module.member;
+package studio.dboo.api.module.v1.member;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import studio.dboo.api.module.member.entity.Member;
+import studio.dboo.api.module.v1.member.entity.Member;
 
 import javax.transaction.Transactional;
 import java.util.Optional;

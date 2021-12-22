@@ -1,7 +1,7 @@
-package studio.dboo.api.module.address;
+package studio.dboo.api.module.v1.address;
 
 import lombok.*;
-import studio.dboo.api.module.member.entity.Member;
+import studio.dboo.api.module.v1.member.entity.Member;
 
 import javax.persistence.*;
 

@@ -8,4 +8,6 @@ import javax.transaction.Transactional;
 @Transactional
 public interface RefreshTokenRepository extends JpaRepository<RefreshToken, Long> {
     RefreshToken findByLoginId(String loginId);
+
+    RefreshToken findByLoginIdAndToken(String userId, String token);
 }

@@ -33,7 +33,7 @@ repositories {
 }
 
 bootJar{
-    mainClass = "studio.dboo.api.ApiApplicationTest"
+    mainClass = "studio.dboo.api.Application"
 }
 
 dependencies {
@@ -81,7 +81,7 @@ dependencies {
     runtimeOnly 'org.postgresql:postgresql'
 
     // ETC
-    implementation 'com.google.code.gson:gson:2.8.5' // JSON
+    implementation 'com.google.code.gson:gson:2.8.9' // JSON
 }
 
 configurations {

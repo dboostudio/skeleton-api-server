@@ -1,4 +1,4 @@
-package studio.dboo.api.module.member.entity;
+package studio.dboo.api.module.v1.member.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,7 +12,7 @@ import org.springframework.security.oauth2.core.oidc.OidcUserInfo;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import studio.dboo.api.infra.auth.token.AuthType;
-import studio.dboo.api.module.member.enums.RoleType;
+import studio.dboo.api.module.v1.member.enums.RoleType;
 
 import java.util.Collection;
 import java.util.Collections;
