@@ -8,5 +8,5 @@ public enum AuthType {
     FACEBOOK,
     NAVER,
     KAKAO,
-    DBOOSTUDIO;
+    DBOOSTUDIO
 }

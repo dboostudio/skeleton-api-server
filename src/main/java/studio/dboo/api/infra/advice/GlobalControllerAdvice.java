@@ -6,14 +6,11 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 
 @Slf4j
@@ -51,14 +48,14 @@ public class GlobalControllerAdvice {
             JsonObject jsonObject = new JsonObject();
             FieldError field = (FieldError) error;
             log.error("========== ERROR LOG START ==========");
-            log.error("BindException occured");
+            log.error("BindException occurred");
             log.error("Field : {}", field.getField());
             log.error("ObjectName : {}", field.getObjectName());
             log.error("DefaultMessage : {}", field.getDefaultMessage());
             log.error("RejectedValue : {}", field.getRejectedValue());
 
             jsonObject.addProperty("field", field.getField());
-            jsonObject.addProperty("rejectValue", field.getRejectedValue().toString());
+            jsonObject.addProperty("rejectValue", String.valueOf(field.getRejectedValue()));
             jsonObject.addProperty("message", field.getDefaultMessage());
             result.add(jsonObject);
             log.error("========== ERROR LOG END ============");
@@ -75,14 +72,14 @@ public class GlobalControllerAdvice {
             JsonObject jsonObject = new JsonObject();
             FieldError field = (FieldError) error;
             log.error("========== ERROR LOG START ==========");
-            log.error("MethodArgumentNotValidException occured");
+            log.error("MethodArgumentNotValidException occurred");
             log.error("Field : {}", field.getField());
             log.error("ObjectName : {}", field.getObjectName());
             log.error("DefaultMessage : {}", field.getDefaultMessage());
             log.error("RejectedValue : {}", field.getRejectedValue());
 
             jsonObject.addProperty("field", field.getField());
-            jsonObject.addProperty("rejectValue", field.getRejectedValue().toString());
+            jsonObject.addProperty("rejectValue", String.valueOf(field.getRejectedValue()));
             jsonObject.addProperty("message", field.getDefaultMessage());
             result.add(jsonObject);
             log.error("========== ERROR LOG END ============");

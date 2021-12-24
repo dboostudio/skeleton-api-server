@@ -6,7 +6,7 @@ services:
     restart: always
     container_name: api
     ports:
-      - 25432:5432
+      - "25432:5432"
     environment:
       POSTGRES_USER: dboostudio
       POSTGRES_PASSWORD: eoghks1@!2_

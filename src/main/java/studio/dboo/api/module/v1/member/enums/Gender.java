@@ -7,6 +7,6 @@ public enum Gender {
     M   ("male", 0),
     F   ("female", 1);
 
-    private String desc;
-    private Integer value;
+    private final String desc;
+    private final Integer value;
 }

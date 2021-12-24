@@ -18,12 +18,12 @@ import lombok.NoArgsConstructor;
 @Builder
 public class MemberSignUp {
 
-    private final static String ID_REGEXP = "[a-zA-Z\\d_.]{0,}";
+    private final static String ID_REGEXP = "[a-zA-Z\\d_.]*";
     private final static String ID_BLANK = "아이디를 입력해주세요.";
     private final static String ID_WRONG_LENGTH = "아이디는 50자까지만 입력 가능합니다.";
     private final static String ID_WRONG_PATTERN = "아이디가 형식에 맞지 않습니다.";
 
-    private final static String PASSWORD_REGEXP = "^(?=.*[a-zA-Z])(?=.*\\d)(?=.*[!@#$%^&*_=,.])[A-Za-z\\d!@#$%^&*_=,.]{0,}$";
+    private final static String PASSWORD_REGEXP = "^(?=.*[a-zA-Z])(?=.*\\d)(?=.*[!@#$%^&*_=,.])[A-Za-z\\d!@#$%^&*_=,.]*$";
     private final static String PWD_BLANK = "패스워드를 입력해주세요.";
     private final static String PWD_WRONG_LENGTH = "비밀번호는 8자 이상, 16자 이하로 입력해주세요.";
     private final static String PWD_WRONG_PATTERN = "패스워드가 형식에 맞지 않습니다.";

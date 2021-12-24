@@ -11,10 +11,6 @@ import studio.dboo.api.forTest.MockMvcTest;
 import studio.dboo.api.module.v1.member.dto.MemberLogin;
 import studio.dboo.api.module.v1.member.dto.MemberSignUp;
 
-import javax.transaction.Transactional;
-
-import java.util.Arrays;
-
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
