@@ -3,6 +3,7 @@ buildscript {
         spring = "2.6.1"
         boot = "org.springframework.boot"
         lombok = "org.projectlombok:lombok"
+        queryDslVersion = "5.0.0"
     }
     repositories {
         mavenCentral()
@@ -66,10 +67,6 @@ dependencies {
     // SWAGGER
     implementation "io.springfox:springfox-boot-starter:3.0.0"
 
-    // THYMELEAF
-    implementation "$boot:spring-boot-starter-thymeleaf"
-    implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
-
     // LOMBOK
     compileOnly lombok
     annotationProcessor lombok
@@ -79,6 +76,14 @@ dependencies {
 
     // DB
     runtimeOnly 'org.postgresql:postgresql'
+
+
+    // QueryDSL
+    implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
+    annotationProcessor(
+            "javax.persistence:javax.persistence-api",
+            "javax.annotation:javax.annotation-api",
+            "com.querydsl:querydsl-apt:${queryDslVersion}:jpa")
 
     // ETC
     implementation 'com.google.code.gson:gson:2.8.9' // JSON

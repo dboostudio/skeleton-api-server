@@ -1,4 +1,4 @@
-package studio.dboo.api.module.v1.member.entity;
+package studio.dboo.api.module.v1.member.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

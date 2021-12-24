@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
+import org.springframework.util.AntPathMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
 import studio.dboo.api.infra.auth.token.AuthToken;
 import studio.dboo.api.infra.auth.token.AuthTokenProvider;
@@ -22,10 +23,6 @@ public class AuthenticationFilter extends OncePerRequestFilter {
 
     private final AuthTokenProvider tokenProvider;
 
-    private List<String> EXCLUDE_URL = List.of("/"
-            ,"/swagger-ui/**"
-            ,"/api/member/sign-up", "/api/member/login");
-
     @Override
     protected void doFilterInternal(
             HttpServletRequest request,
@@ -42,15 +39,4 @@ public class AuthenticationFilter extends OncePerRequestFilter {
 
         filterChain.doFilter(request, response);
     }
-
-//    @Override
-//    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
-//        AntPathMatcher antPathMatcher = new AntPathMatcher();
-//        for(String urlPattern : EXCLUDE_URL){
-//            if(antPathMatcher.match(urlPattern, request.getRequestURI())){
-//                return true;
-//            }
-//        }
-//        return false;
-//    }
 }

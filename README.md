@@ -11,6 +11,8 @@
 - 엑셀 다운로드 모듈
 -
 
-### 개발 설계
+### 개발 설계 고민?
 
-- 요청은 DTO객체를 따로 두어 받는다.
+- QueryDSL vs JPA
+- Creteria -> Specification은 사용이 불편하여 애초에 제외.
+- 

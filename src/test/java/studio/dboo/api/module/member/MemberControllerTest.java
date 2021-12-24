@@ -8,9 +8,12 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import studio.dboo.api.forTest.MockMvcTest;
+import studio.dboo.api.module.v1.member.dto.MemberLogin;
 import studio.dboo.api.module.v1.member.dto.MemberSignUp;
 
 import javax.transaction.Transactional;
+
+import java.util.Arrays;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -23,15 +26,17 @@ class MemberControllerTest {
     @Autowired MockMvc mockMvc;
     @Autowired ObjectMapper objectMapper;
 
+    private String jwtToken;
+
     @Test
     @DisplayName("회원가입-정상")
-    @Transactional // 실제 DB에 플러쉬 되지 않는다.
+//    @Transactional // 실제 DB에 플러쉬 되지 않는다.
     public void signUp() throws Exception {
         MemberSignUp memberSignUpDTO = MemberSignUp.builder()
                 .loginId("dboo.studio_")
                 .password("eoghks1@!2_")
                 .build();
-        mockMvc.perform(post("/api/member/sign-up")
+        mockMvc.perform(post("/api/v1/member/sign-up")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(memberSignUpDTO)))
                 .andExpect(status().isOk())
@@ -49,12 +54,12 @@ class MemberControllerTest {
                 .loginId(" aa")
                 .password("eoghks1@!2_")
                 .build();
-        mockMvc.perform(post("/api/member/sign-up")
+        mockMvc.perform(post("/api/v1/member/sign-up")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(memberSignUpDTO1)))
                 .andExpect(status().isBadRequest())
                 .andDo(print());
-        mockMvc.perform(post("/api/member/sign-up")
+        mockMvc.perform(post("/api/v1/member/sign-up")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(memberSignUpDTO2)))
                 .andExpect(status().isBadRequest())
@@ -68,7 +73,7 @@ class MemberControllerTest {
                 .loginId("dboostudiodboostudiodboostudiodboostudiodboostudiodboostudiodboostudiodboostudiodboostudiodboostudiodboostudio")
                 .password("eoghks1@!2_")
                 .build();
-        mockMvc.perform(post("/api/member/sign-up")
+        mockMvc.perform(post("/api/v1/member/sign-up")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(memberSignUpDTO)))
                 .andExpect(status().isBadRequest())
@@ -82,7 +87,7 @@ class MemberControllerTest {
                 .loginId("dboo.studio!@#$")
                 .password("eoghks1@!2_")
                 .build();
-        mockMvc.perform(post("/api/member/sign-up")
+        mockMvc.perform(post("/api/v1/member/sign-up")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(memberSignUpDTO)))
                 .andExpect(status().isBadRequest())
@@ -97,11 +102,27 @@ class MemberControllerTest {
                 .loginId("dboo.studio")
                 .password(" ")
                 .build();
-        mockMvc.perform(post("/api/member/sign-up")
+        mockMvc.perform(post("/api/v1/member/sign-up")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(memberSignUpDTO)))
                 .andExpect(status().isBadRequest())
                 .andDo(print());
     }
 
+    @Test
+    @DisplayName("로그인 - 정상")
+    public void login() throws Exception {
+        MemberLogin memberLoginDTO = MemberLogin.builder()
+                .loginId("dboo.studio_")
+                .password("eoghks1@!2_")
+                .build();
+        mockMvc.perform(post("/api/v1/member/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(memberLoginDTO)))
+                .andExpect(status().isOk())
+                .andDo(print())
+                .andDo(result -> {
+                    jwtToken=result.getResponse().getHeader("token");
+                });
+    }
 }

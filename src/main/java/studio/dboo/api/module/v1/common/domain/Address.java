@@ -1,7 +1,7 @@
-package studio.dboo.api.module.v1.address;
+package studio.dboo.api.module.v1.common.domain;
 
 import lombok.*;
-import studio.dboo.api.module.v1.member.entity.Member;
+import studio.dboo.api.module.v1.member.vo.Member;
 
 import javax.persistence.*;
 
@@ -12,7 +12,7 @@ public class Address {
     @Id @GeneratedValue
     private Long id;
 
-    @OneToOne(mappedBy = "address")
+    @ManyToOne
     private Member member;
 
     private String addressLine1;

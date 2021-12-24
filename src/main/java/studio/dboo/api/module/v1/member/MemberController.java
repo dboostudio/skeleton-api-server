@@ -10,9 +10,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.web.bind.annotation.*;
 import studio.dboo.api.infra.auth.token.AuthToken;
 import studio.dboo.api.infra.auth.token.AuthTokenProvider;
@@ -23,8 +21,8 @@ import studio.dboo.api.infra.utils.CookieUtil;
 import studio.dboo.api.infra.utils.HeaderUtil;
 import studio.dboo.api.module.v1.member.dto.MemberLogin;
 import studio.dboo.api.module.v1.member.dto.MemberSignUp;
-import studio.dboo.api.module.v1.member.entity.Member;
-import studio.dboo.api.module.v1.member.entity.MemberPrincipal;
+import studio.dboo.api.module.v1.member.vo.Member;
+import studio.dboo.api.module.v1.member.vo.MemberPrincipal;
 import studio.dboo.api.module.v1.member.enums.RoleType;
 
 import javax.servlet.http.Cookie;
@@ -34,9 +32,9 @@ import javax.validation.Valid;
 import java.util.Date;
 
 @RestController
-@RequestMapping("/api/member")
+@RequestMapping("/api/v1/member")
 @RequiredArgsConstructor
-@Api(value = "회원가입 컨트롤러")
+@Api(value = "회원 API 컨트롤러")
 public class MemberController {
 
     private final MemberService memberService;
@@ -49,42 +47,29 @@ public class MemberController {
     private final static long THREE_DAYS_MSEC = 259200000;
     private final static String REFRESH_TOKEN = "refresh_token";
 
-    @PostMapping("sign-up")
+    @PostMapping("/sign-up")
     @ApiOperation(value = "signUpMember", notes = "회원가입")
-    public ResponseEntity<Member> signUp(@Valid @RequestBody MemberSignUp signUp){
+    public ResponseEntity<Member> signUp(@Valid @RequestBody MemberSignUp signUp) {
         Member member = memberService.signUp(signUp);
         return ResponseEntity.ok().body(member);
     }
 
 
     @PostMapping("/login")
-    public ResponseEntity login(
-            HttpServletRequest request,
-            HttpServletResponse response,
-            @RequestBody MemberLogin memberLogin
-    ) {
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        memberLogin.getLoginId(),
-                        memberLogin.getPassword()
-                )
-        );
+    public ResponseEntity login(HttpServletRequest request, HttpServletResponse response, @RequestBody MemberLogin memberLogin) {
+        Authentication authentication = authenticationManager
+                .authenticate(new UsernamePasswordAuthenticationToken(memberLogin.getLoginId(), memberLogin.getPassword()));
 
         String loginId = memberLogin.getLoginId();
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         Date now = new Date();
         AuthToken accessToken = tokenProvider.createAuthToken(
-                loginId,
-                ((MemberPrincipal) authentication.getPrincipal()).getRoleType().getCode(),
-                new Date(now.getTime() + appProperties.getAuth().getTokenExpiry())
-        );
+                        loginId, ((MemberPrincipal) authentication.getPrincipal()).getRoleType().getCode()
+                        , new Date(now.getTime() + appProperties.getAuth().getTokenExpiry()));
 
         long refreshTokenExpiry = appProperties.getAuth().getRefreshTokenExpiry();
-        AuthToken refreshToken = tokenProvider.createAuthToken(
-                appProperties.getAuth().getTokenSecret(),
-                new Date(now.getTime() + refreshTokenExpiry)
-        );
+        AuthToken refreshToken = tokenProvider.createAuthToken(appProperties.getAuth().getTokenSecret(), new Date(now.getTime() + refreshTokenExpiry));
 
         // userId refresh token 으로 DB 확인
         RefreshToken userRefreshToken = refreshTokenRepository.findByLoginId(loginId);
@@ -105,7 +90,7 @@ public class MemberController {
     }
 
     @GetMapping("/refresh")
-    public ResponseEntity refreshToken (HttpServletRequest request, HttpServletResponse response) {
+    public ResponseEntity refreshToken(HttpServletRequest request, HttpServletResponse response) {
         // access token 확인
         String accessToken = HeaderUtil.getTokenFromRequest(request);
         AuthToken authToken = tokenProvider.convertAuthToken(accessToken);
@@ -123,9 +108,7 @@ public class MemberController {
         RoleType roleType = RoleType.of(claims.get("role", String.class));
 
         // refresh token
-        String token = CookieUtil.getCookie(request, REFRESH_TOKEN)
-                .map(Cookie::getValue)
-                .orElse((null));
+        String token = CookieUtil.getCookie(request, REFRESH_TOKEN).map(Cookie::getValue).orElse((null));
         AuthToken authRefreshToken = tokenProvider.convertAuthToken(token);
 
         if (authRefreshToken.validate()) {
@@ -139,11 +122,7 @@ public class MemberController {
         }
 
         Date now = new Date();
-        AuthToken newAccessToken = tokenProvider.createAuthToken(
-                userId,
-                roleType.getCode(),
-                new Date(now.getTime() + appProperties.getAuth().getTokenExpiry())
-        );
+        AuthToken newAccessToken = tokenProvider.createAuthToken(userId, roleType.getCode(), new Date(now.getTime() + appProperties.getAuth().getTokenExpiry()));
 
         long validTime = authRefreshToken.getTokenClaims().getExpiration().getTime() - now.getTime();
 
@@ -152,10 +131,7 @@ public class MemberController {
             // refresh 토큰 설정
             long refreshTokenExpiry = appProperties.getAuth().getRefreshTokenExpiry();
 
-            authRefreshToken = tokenProvider.createAuthToken(
-                    appProperties.getAuth().getTokenSecret(),
-                    new Date(now.getTime() + refreshTokenExpiry)
-            );
+            authRefreshToken = tokenProvider.createAuthToken(appProperties.getAuth().getTokenSecret(), new Date(now.getTime() + refreshTokenExpiry));
 
             // DB에 refresh 토큰 업데이트
             userRefreshToken.setToken(authRefreshToken.getToken());

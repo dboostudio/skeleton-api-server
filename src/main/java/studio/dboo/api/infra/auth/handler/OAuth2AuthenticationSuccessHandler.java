@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
 import studio.dboo.api.infra.auth.info.OAuth2UserInfo;
 import studio.dboo.api.infra.auth.info.OAuth2UserInfoFactory;
-import studio.dboo.api.infra.auth.repository.AuthenticationRepository;
+import studio.dboo.api.infra.auth.repository.AuthenticationCookieRepository;
 import studio.dboo.api.infra.auth.token.AuthToken;
 import studio.dboo.api.infra.auth.token.AuthTokenProvider;
 import studio.dboo.api.infra.auth.token.AuthType;
@@ -30,8 +30,8 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.Optional;
 
-import static studio.dboo.api.infra.auth.repository.AuthenticationRepository.REDIRECT_URI_PARAM_COOKIE_NAME;
-import static studio.dboo.api.infra.auth.repository.AuthenticationRepository.REFRESH_TOKEN;
+import static studio.dboo.api.infra.auth.repository.AuthenticationCookieRepository.REDIRECT_URI_PARAM_COOKIE_NAME;
+import static studio.dboo.api.infra.auth.repository.AuthenticationCookieRepository.REFRESH_TOKEN;
 
 
 @Component
@@ -41,7 +41,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
     private final AuthTokenProvider tokenProvider;
     private final AppProperties appProperties;
     private final RefreshTokenRepository refreshTokenRepository;
-    private final AuthenticationRepository authRepository;
+    private final AuthenticationCookieRepository authRepository;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {

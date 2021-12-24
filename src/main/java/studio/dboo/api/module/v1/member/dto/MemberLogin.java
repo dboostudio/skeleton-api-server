@@ -2,13 +2,18 @@ package studio.dboo.api.module.v1.member.dto;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
-import studio.dboo.api.module.v1.member.entity.Member;
+import studio.dboo.api.module.v1.member.vo.Member;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 
-@Getter
-@Setter
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Builder
 public class MemberLogin {
 

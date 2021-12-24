@@ -19,7 +19,6 @@ public class AuthenticationAdvice {
     // 유저이름을 찾지 못한 경우
     @ExceptionHandler(value = AuthenticationException.class)
     public ResponseEntity usernameNotFoundExceptionHandler(AuthenticationException e){
-
         JsonArray result = new JsonArray();
         JsonObject jsonObject = new JsonObject();
 

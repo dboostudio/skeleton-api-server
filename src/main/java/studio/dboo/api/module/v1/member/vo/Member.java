@@ -1,22 +1,26 @@
-package studio.dboo.api.module.v1.member.entity;
+package studio.dboo.api.module.v1.member.vo;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import studio.dboo.api.infra.auth.token.AuthType;
-import studio.dboo.api.module.v1.address.Address;
-import studio.dboo.api.module.v1.common.domain.BaseEntity;
+import studio.dboo.api.module.v1.common.domain.Address;
+import studio.dboo.api.module.v1.common.domain.TimeAuditingEntity;
 import studio.dboo.api.module.v1.member.enums.Gender;
 import studio.dboo.api.module.v1.member.enums.RoleType;
 import studio.dboo.api.module.v1.member.enums.Tier;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
 @Getter @Builder @AllArgsConstructor @NoArgsConstructor
-@Table(name = "MEMBER")
-public class Member extends BaseEntity {
+@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "id")
+public class Member extends TimeAuditingEntity{
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -37,8 +41,8 @@ public class Member extends BaseEntity {
     private String phone;
     private Integer age;
     private LocalDate birth;
-    @OneToOne
-    private Address address;
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
+    private List<Address> addressList;
 
     /** MEMBER INFO */
     private String nickname;

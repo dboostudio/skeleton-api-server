@@ -3,7 +3,7 @@ package studio.dboo.api.module.v1.member.dto;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Builder;
 import org.hibernate.validator.constraints.Length;
-import studio.dboo.api.module.v1.member.entity.Member;
+import studio.dboo.api.module.v1.member.vo.Member;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
@@ -27,7 +27,6 @@ public class MemberSignUp {
     private final static String PWD_BLANK = "패스워드를 입력해주세요.";
     private final static String PWD_WRONG_LENGTH = "비밀번호는 8자 이상, 16자 이하로 입력해주세요.";
     private final static String PWD_WRONG_PATTERN = "패스워드가 형식에 맞지 않습니다.";
-
 
     @NotBlank(message = ID_BLANK)
     @Length(max = 50, message = ID_WRONG_LENGTH)

@@ -22,7 +22,7 @@ import studio.dboo.api.infra.auth.AuthenticationEntryPoint;
 import studio.dboo.api.infra.auth.handler.OAuth2AuthenticationFailureHandler;
 import studio.dboo.api.infra.auth.handler.OAuth2AuthenticationSuccessHandler;
 import studio.dboo.api.infra.auth.handler.TokenAccessDeniedHandler;
-import studio.dboo.api.infra.auth.repository.AuthenticationRepository;
+import studio.dboo.api.infra.auth.repository.AuthenticationCookieRepository;
 import studio.dboo.api.infra.properties.CorsProperties;
 import studio.dboo.api.module.v1.member.MemberService;
 import studio.dboo.api.module.v1.member.enums.RoleType;
@@ -42,7 +42,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final AuthenticationFilter authenticationFilter;
     private final TokenAccessDeniedHandler tokenAccessDeniedHandler;
 
-    private final AuthenticationRepository authRepository;
+    private final AuthenticationCookieRepository authRepository;
 
     private final OAuth2AuthenticationSuccessHandler successHandler;
     private final OAuth2AuthenticationFailureHandler failureHandler;
@@ -95,9 +95,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // 접근 권한 설정
         http.authorizeRequests()
                 .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
-                .antMatchers("/api/**").hasAnyAuthority(RoleType.USER.getCode())
-                .antMatchers("/api/**/admin/**").hasAnyAuthority(RoleType.ADMIN.getCode())
-                .antMatchers("/api/member/sign-up", "api/member/login").permitAll()
+                .antMatchers("/api/v1/member/sign-up", "/api/v1/member/login").permitAll()
+                .antMatchers("/api/v1/admin/**").hasAnyAuthority(RoleType.ADMIN.getCode())
+                .antMatchers("/api/v1/**").hasAnyAuthority(RoleType.USER.getCode())
                 .anyRequest().authenticated();
         // AuthFilter 적용
         http.addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class);
