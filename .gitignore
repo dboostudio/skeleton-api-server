@@ -35,5 +35,7 @@ out/
 
 ### VS Code ###
 .vscode/
-/database/postgresql/
+
+### Generated Files ###
 /logs/**
+/src/main/generated/

@@ -1,6 +1,3 @@
-package springfox.documentation.spring.web.plugins;
-
-// TODO - 추후 스프링부트 2.6.X버전을 지원하는 스프링폭스 버전이 나오면, 버전업하고 이 클래스를 삭제할것.
 /*
  *
  *  Copyright 2015-2017 the original author or authors.
@@ -19,7 +16,7 @@ package springfox.documentation.spring.web.plugins;
  *
  *
  */
-//package springfox.documentation.spring.web.plugins;
+package springfox.documentation.spring.web.plugins;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +46,7 @@ import static springfox.documentation.builders.BuilderDefaults.*;
 import static springfox.documentation.spi.service.contexts.Orderings.*;
 import static springfox.documentation.spring.web.paths.Paths.*;
 
+// TODO - 추후 스프링부트 2.6.X버전을 지원하는 스프링폭스 버전이 나오면, 버전업하고 이 클래스를 삭제할것.
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
